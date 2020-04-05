@@ -184,4 +184,27 @@ class ClippedCirclePartView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : ClippedCirclePartView) {
+
+        private val animator : Animator = Animator(view)
+        private val ccp : ClippedCirclePart = ClippedCirclePart(0)
+        private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+        fun render(canvas : Canvas) {
+            canvas.drawColor(backColor)
+            ccp.draw(canvas, paint)
+            animator.animate {
+                ccp.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            ccp.startUpdating {
+                animator.stop()
+            }
+        }
+    }
 }
