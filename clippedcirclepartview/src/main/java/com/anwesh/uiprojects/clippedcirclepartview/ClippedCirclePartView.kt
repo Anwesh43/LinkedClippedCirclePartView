@@ -15,7 +15,7 @@ import android.graphics.RectF
 
 val nodes : Int = 5
 val parts : Int = 5
-val scGap : Float = 0.02f
+val scGap : Float = 0.04f / parts
 val delay : Long = 20
 val sizeFactor : Float = 2.9f
 val foreColor : Int = Color.parseColor("#3F51B5")
@@ -28,7 +28,7 @@ fun Float.sinify() : Float = Math.sin(this * Math.PI).toFloat()
 
 fun Canvas.drawClippedCirclePart(i : Int, size : Float, scale : Float, w : Float, paint : Paint) {
     val hPart = 2 * size / parts
-    val y : Float = hPart * i
+    val y : Float = -size + hPart * i
     val sf : Float = scale.sinify().divideScale(i, parts)
     save()
     translate(size + (w - size - size) * sf, -size)
@@ -205,7 +205,7 @@ class ClippedCirclePartView(ctx : Context) : View(ctx) {
 
         fun handleTap() {
             ccp.startUpdating {
-                animator.stop()
+                animator.start()
             }
         }
     }
